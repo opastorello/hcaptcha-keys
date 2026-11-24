@@ -98,6 +98,7 @@ design (no solver / no bypass):
 
 - **[`RESEARCH-SUMMARY.md`](RESEARCH-SUMMARY.md) — start here: executive summary + findings**
 - [`RESEARCH-protocol.md`](RESEARCH-protocol.md) — client protocol & crypto whitepaper
+- [`RESEARCH-crypto-analysis.md`](RESEARCH-crypto-analysis.md) — encryption/decryption construction analysis (AEAD, IV, keys, n-token)
 - [`RESEARCH-hcaptcha-defense.md`](RESEARCH-hcaptcha-defense.md) — visual challenge taxonomy + layered defense
 - [`RESEARCH-motiondata-signal.md`](RESEARCH-motiondata-signal.md) — behavioral signal analysis (detection view)
 - [`RESEARCH-pow-hsw.md`](RESEARCH-pow-hsw.md) — hsw proof-of-work cost analysis (Hashcash/SHA-1)
