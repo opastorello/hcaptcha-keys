@@ -91,7 +91,19 @@ npm ci                      # jsdom + canvas (Node 18+)
 python tools/update_keys.py --data-dir data
 ```
 
+## Research notes
+
+Descriptive, defensive/educational analysis of hCaptcha's protocol and defense
+design (no solver / no bypass):
+
+- [`RESEARCH-protocol.md`](RESEARCH-protocol.md) — client protocol & crypto whitepaper
+- [`RESEARCH-hcaptcha-defense.md`](RESEARCH-hcaptcha-defense.md) — visual challenge taxonomy + layered defense
+- [`RESEARCH-captcha-comparison.md`](RESEARCH-captcha-comparison.md) — hCaptcha vs Turnstile vs reCAPTCHA v3
+- [`RESEARCH-measurement-design.md`](RESEARCH-measurement-design.md) — responsible study methodology
+
 ## Disclaimer
 
 For security research and interoperability testing. Uses only hCaptcha's own
 publicly-served bundle. No affiliation with hCaptcha / Intuition Machines.
+This repository characterizes the transport/crypto layer and defense *design*;
+it contains no challenge solver, no behavioral-signal synthesis, and no bypass.
