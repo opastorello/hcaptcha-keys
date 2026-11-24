@@ -96,6 +96,7 @@ python tools/update_keys.py --data-dir data
 Descriptive, defensive/educational analysis of hCaptcha's protocol and defense
 design (no solver / no bypass):
 
+- **[`RESEARCH-SUMMARY.md`](RESEARCH-SUMMARY.md) — start here: executive summary + findings**
 - [`RESEARCH-protocol.md`](RESEARCH-protocol.md) — client protocol & crypto whitepaper
 - [`RESEARCH-hcaptcha-defense.md`](RESEARCH-hcaptcha-defense.md) — visual challenge taxonomy + layered defense
 - [`RESEARCH-motiondata-signal.md`](RESEARCH-motiondata-signal.md) — behavioral signal analysis (detection view)
