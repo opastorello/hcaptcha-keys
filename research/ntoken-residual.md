@@ -78,8 +78,28 @@ representation search against the keystream.
   heuristic is tuned to the CTR driver. Decrypting a *third party's* n-token is
   what still needs the key above.
 
+## Prior art — the whole public ecosystem confirms it's open
+
+A GitHub survey (code + repos) finds **no public project that extracts the
+n-token key**, and the approaches others took confirm this note's diagnosis:
+
+| Project | n-token handling | Key? |
+|---|---|---|
+| `vastien/hcaptcha-keys` | publishes only request/response (hsw/hsj) | ✘ (never attempts) |
+| `CircuitSavage/…` (this project's upstream) | documents it as the residual | ✘ |
+| `Implex-ltd/hcaptcha-reverse` — `n_dumper.js` | scans WASM memory for the **plaintext** (`{"proof_spec":…}`) — key-free, like path (b); stale (">1.40.20 won't work") | ✘ (plaintext only) |
+| `Implex-ltd/hcaptcha-reverse` — `key_dumper.js` | scans memory for a hex-key string | ✘ — annotated **"won't work"** |
+
+The last row is the tell: a naive memory scan for the key *cannot* work **because
+the key is never contiguous in memory** — exactly the property documented here.
+Searches for the fixslice-inversion approach (`inv_bitslice` + hCaptcha) return
+only this project's own lineage. So the n-token key is a **genuinely open
+problem**, and the known-keystream experiment above is a technique no public
+project has tried.
+
 ## Status
 
 Parked as the **open residual**. The three protocol keys that matter are solved
 and shipping; the n-token key is a separate, bounded RE project with a clear,
-falsifiable next experiment (the known-keystream test above).
+falsifiable next experiment (the known-keystream test above) that is, as far as
+the public ecosystem shows, unexplored.
