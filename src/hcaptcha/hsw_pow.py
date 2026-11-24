@@ -10,9 +10,8 @@ feature flag — we confirmed this empirically:
    as ``i32.const`` literals in the WASM code section (search for
    ``encode_sleb(0x5A827999)`` patterns; six occurrences each in our
    builds — once per SHA-1 round).
-2. The Implex-ltd reverse-engineering project's ``readme.md`` lists
-   ``rust-hashcash/0.3.3`` in the crate inventory under "Stamp (proof
-   of work)".
+2. A public reverse-engineering crate inventory lists
+   ``rust-hashcash/0.3.3`` under "Stamp (proof of work)".
 3. xxHash3 primes — which a community blog post incorrectly named as
    the PoW hash — are NOT present anywhere in the WASM. (They ARE
    used by hCaptcha for the fingerprint hash, not the PoW.)

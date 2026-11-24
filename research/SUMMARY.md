@@ -85,8 +85,7 @@ gate, not the lock.**
 | 7 | [`turnstile-architecture.md`](turnstile-architecture.md) | Turnstile architecture deep-dive |
 | 8 | [`recaptcha-enterprise.md`](recaptcha-enterprise.md) | reCAPTCHA Enterprise signal analysis |
 | 9 | [`recaptcha-v3-why-opaque.md`](recaptcha-v3-why-opaque.md) | Why v3 resists client-side extraction |
-| 10 | [`related-work.md`](related-work.md) | hCaptcha RE/solver ecosystem (by layer + activity) |
-| 11 | [`measurement-design.md`](measurement-design.md) | Responsible study methodology |
+| 10 | [`measurement-design.md`](measurement-design.md) | Responsible study methodology |
 
 ## Conclusion & stance
 

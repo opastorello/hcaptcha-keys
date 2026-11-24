@@ -1,8 +1,7 @@
 """HSW key provider — 100% independent, zero third-party dependencies.
 
 This provider does encrypt AND decrypt for the current hCaptcha build using
-ONLY hCaptcha's own freely-downloaded bundle. It never contacts vastien,
-CircuitSavage, or any other key feed — the only network traffic is fetching
+ONLY hCaptcha's own freely-downloaded bundle. It never contacts any third-party key feed — the only network traffic is fetching
 the bundle itself from the hCaptcha asset server.
 
 Two fully-local layers, in priority order:

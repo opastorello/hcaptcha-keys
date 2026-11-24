@@ -1,7 +1,7 @@
 """hsj key equivalence probe.
 
 On current builds the `hsj.js` (inspekt_client / fingerprint) bundle encrypts
-and decrypts with the **same** AES-256-GCM keys as `hsw.js` (the vastien
+and decrypts with the **same** AES-256-GCM keys as `hsw.js` (the
 `matches_hsw` case). Rather than re-implement a fragile key-schedule extractor
 for the obfuscated T-table AES inside hsj, we **verify** the equivalence
 directly against hsj's own oracle: if `hsj(1, pt)` is decryptable under the
@@ -97,7 +97,7 @@ def probe_hsj_equivalence(version: str, request_key: bytes,
 
 
 def hsj_block(bk, probe: dict) -> Optional[dict]:
-    """Build the vastien-schema hsj block from a BuildKeys + probe result,
+    """Build the published-schema hsj block from a BuildKeys + probe result,
     or None if hsj did not verify as sharing the hsw keys."""
     if not probe.get("request_ok"):
         return None

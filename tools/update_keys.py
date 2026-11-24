@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-"""CI runner -- keep a vastien-style key repo up to date, fully independently.
+"""CI runner -- keep an auto-updating key repo up to date, fully independently.
 
 Detects the current hCaptcha build, and:
   * same build as data/keys.json  -> just bump ``last_checked`` (heartbeat).
   * new build                     -> extract + verify both AES-256 keys with
     the local write-interception extractor and write data/keys.json +
-    data/history/<version>.json in the vastien schema.
+    data/history/<version>.json in a stable published schema.
 
 Prints a machine-readable status line on stdout for the workflow to turn into
 a commit message:

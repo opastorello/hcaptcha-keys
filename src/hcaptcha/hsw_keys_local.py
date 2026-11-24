@@ -2,7 +2,7 @@
 
 Recovers the per-build AES-256 ``request_key`` and ``response_key`` straight
 from the live hCaptcha bundle using ONLY hCaptcha's own freely-downloaded
-code -- no third-party key feed (no vastien, no CircuitSavage), no network
+code -- no third-party key feed, no network
 beyond fetching the bundle from the hCaptcha asset server.
 
 Method: **fixslice bitslice write interception + module oracle**
@@ -79,7 +79,7 @@ class BuildKeys:
     wasm_sha256: str = ""
     bundle_sha256: str = ""
     bundle_sri: str = ""
-    hsj: Optional[dict] = None     # vastien-schema hsj block, when it shares hsw keys
+    hsj: Optional[dict] = None     # published-schema hsj block, when it shares hsw keys
 
     @property
     def verified(self) -> bool:
@@ -329,7 +329,7 @@ def extract_build_keys(version: Optional[str] = None,
     )
 
     # Bonus: if the hsj (fingerprint) bundle shares the hsw keys this build
-    # (the vastien 'matches_hsw' case), verify it against hsj's own oracle and
+    # (the 'matches_hsw' case), verify it against hsj's own oracle and
     # attach the hsj block. Failure here never affects the hsw result.
     if probe_hsj:
         try:
@@ -343,7 +343,7 @@ def extract_build_keys(version: Optional[str] = None,
 
 
 # ---------------------------------------------------------------------------
-# vastien-compatible JSON serialisation
+# published-keys JSON serialisation
 # ---------------------------------------------------------------------------
 def build_keys_json(bk: BuildKeys) -> dict:
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.") + \

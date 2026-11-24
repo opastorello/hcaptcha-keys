@@ -238,6 +238,4 @@ test_post_encrypt_scan.py
 
 # root-level exploratory scripts (real tests live in tests/)
 /test_*.py
-/src/hcaptcha/extract_hook_import.js
-/src/hcaptcha/extract_vastien.js
 /deobfuscated/

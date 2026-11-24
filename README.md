@@ -221,7 +221,6 @@ design (no solver / no bypass):
 - [`research/turnstile-architecture.md`](research/turnstile-architecture.md) — Turnstile architecture deep-dive
 - [`research/recaptcha-enterprise.md`](research/recaptcha-enterprise.md) — reCAPTCHA Enterprise signal-level analysis
 - [`research/recaptcha-v3-why-opaque.md`](research/recaptcha-v3-why-opaque.md) — why v3 resists client-side extraction
-- [`research/related-work.md`](research/related-work.md) — the hCaptcha RE/solver ecosystem (by layer + activity)
 - [`research/measurement-design.md`](research/measurement-design.md) — responsible study methodology
 
 ## Disclaimer

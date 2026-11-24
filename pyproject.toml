@@ -29,7 +29,7 @@ testpaths = ["tests"]
 addopts = "-q"
 
 [project.urls]
-Repository = "https://github.com/CircuitSavage/hcaptcha-hsj-hsw-reversed"
+Repository = "https://github.com/opastorello/hcaptcha-keys"
 
 [tool.setuptools.packages.find]
 where = ["src"]

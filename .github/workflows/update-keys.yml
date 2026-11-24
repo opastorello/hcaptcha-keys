@@ -3,7 +3,7 @@ name: Update keys
 # Runs every hour (and on manual dispatch). Detects the current hCaptcha
 # build and, when it rotated, extracts + verifies both AES-256 keys locally
 # (write-interception extractor, no third-party feed) and writes
-# data/keys.json + data/history/<version>.json in the vastien schema.
+# data/keys.json + data/history/<version>.json in a stable published schema.
 # When the build is unchanged it only bumps last_checked (heartbeat).
 #
 # Runtime: ~1-2 min (one extraction + 3 oracle verifications). Free-tier OK.

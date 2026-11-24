@@ -4,7 +4,7 @@
 
 The project does **independent encrypt AND decrypt** for the current hCaptcha
 build using **only hCaptcha's own freely-downloaded bundle**. There is **no
-dependency on any third-party key feed** — vastien and CircuitSavage have been
+dependency on any third-party key feed**. Prior external feeds have been
 removed entirely. The only network traffic is fetching the bundle from the
 hCaptcha asset server.
 
@@ -28,7 +28,7 @@ Both layers are 100% independent — neither contacts a third party.
 
 ## Independence vs. raw-key extraction — the honest picture
 
-- **Independence from vastien / CircuitSavage: DONE.** Both directions run on
+- **Independence from third-party key feeds: DONE.** Both directions run on
   hCaptcha's own local code. No external key feed is consulted.
 - **Decrypt validated end-to-end against a REAL server response (2026-11-23,
   build `840714c6…`).** A genuine `getcaptcha` response (2480 bytes,
