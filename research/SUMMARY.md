@@ -75,14 +75,14 @@ gate, not the lock.**
 
 | # | Doc | Topic |
 |---|-----|-------|
-| 1 | [`RESEARCH-protocol.md`](RESEARCH-protocol.md) | Client protocol + crypto whitepaper |
-| 2 | [`RESEARCH-hcaptcha-defense.md`](RESEARCH-hcaptcha-defense.md) | Visual-challenge taxonomy + layered defense |
-| 3 | [`RESEARCH-motiondata-signal.md`](RESEARCH-motiondata-signal.md) | Behavioral signal analysis (detection view) |
-| 4 | [`RESEARCH-pow-hsw.md`](RESEARCH-pow-hsw.md) | hsw proof-of-work cost analysis |
-| 5 | [`RESEARCH-captcha-comparison.md`](RESEARCH-captcha-comparison.md) | hCaptcha vs Turnstile vs reCAPTCHA v3 |
-| 6 | [`RESEARCH-turnstile-architecture.md`](RESEARCH-turnstile-architecture.md) | Turnstile architecture deep-dive |
-| 7 | [`RESEARCH-recaptcha-enterprise.md`](RESEARCH-recaptcha-enterprise.md) | reCAPTCHA Enterprise signal analysis |
-| 8 | [`RESEARCH-measurement-design.md`](RESEARCH-measurement-design.md) | Responsible study methodology |
+| 1 | [`protocol.md`](protocol.md) | Client protocol + crypto whitepaper |
+| 2 | [`hcaptcha-defense.md`](hcaptcha-defense.md) | Visual-challenge taxonomy + layered defense |
+| 3 | [`motiondata-signal.md`](motiondata-signal.md) | Behavioral signal analysis (detection view) |
+| 4 | [`pow-hsw.md`](pow-hsw.md) | hsw proof-of-work cost analysis |
+| 5 | [`captcha-comparison.md`](captcha-comparison.md) | hCaptcha vs Turnstile vs reCAPTCHA v3 |
+| 6 | [`turnstile-architecture.md`](turnstile-architecture.md) | Turnstile architecture deep-dive |
+| 7 | [`recaptcha-enterprise.md`](recaptcha-enterprise.md) | reCAPTCHA Enterprise signal analysis |
+| 8 | [`measurement-design.md`](measurement-design.md) | Responsible study methodology |
 
 ## Conclusion & stance
 

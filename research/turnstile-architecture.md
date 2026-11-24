@@ -76,6 +76,6 @@ detection-power trade-off in the three-way comparison.
   fingerprint/behavior/reputation coherence — a useful control against hCaptcha
   (task + passive) and reCAPTCHA v3 (passive + Google graph).
 
-See [`RESEARCH-captcha-comparison.md`](./RESEARCH-captcha-comparison.md) for the
-three-way signal table and [`RESEARCH-measurement-design.md`](./RESEARCH-measurement-design.md)
+See [`captcha-comparison.md`](./captcha-comparison.md) for the
+three-way signal table and [`measurement-design.md`](./measurement-design.md)
 for how to study these responsibly.

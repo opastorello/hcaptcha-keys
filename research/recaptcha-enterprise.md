@@ -67,10 +67,10 @@ site branch (allow / step-up MFA / block) per action instead of a bare threshold
 - The explainability (reason codes like `AUTOMATION`) is useful for a defensive
   study: it is a vendor-published taxonomy of the *automation tells* detectors
   look for, which aligns with the behavioral/fingerprint-coherence thesis in
-  [`RESEARCH-motiondata-signal.md`](./RESEARCH-motiondata-signal.md).
+  [`motiondata-signal.md`](./motiondata-signal.md).
 - Privacy trade-off remains the sharpest axis: Google's linkable cross-site graph
   is the most powerful reputation signal of the four systems and the most
   privacy-invasive — the inverse of Turnstile's Privacy-Pass stance.
 
-See [`RESEARCH-captcha-comparison.md`](./RESEARCH-captcha-comparison.md) for the
+See [`captcha-comparison.md`](./captcha-comparison.md) for the
 base three-way comparison this extends.

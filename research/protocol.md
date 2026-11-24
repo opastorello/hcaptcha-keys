@@ -50,7 +50,7 @@ round keys never sit in linear memory as 32 contiguous plaintext bytes (they are
 deobfuscated on-demand through a paged XOR reader). The master is nonetheless
 recoverable by instrumenting the schedule and inverting it — i.e. the crypto is
 *transport confidentiality*, not an anti-bot control (see
-[`RESEARCH-hcaptcha-defense.md`](./RESEARCH-hcaptcha-defense.md) §1).
+[`hcaptcha-defense.md`](./hcaptcha-defense.md) §1).
 
 ## 4. getcaptcha request (client → server)
 

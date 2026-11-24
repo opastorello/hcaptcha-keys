@@ -77,5 +77,5 @@ interesting metric is *aggregate PoW spend per successful session* (difficulty Ã
 chaining depth) versus the attacker's marginal hash cost â€” which quantifies
 exactly how little deterrence a low-bit SHA-1 Hashcash provides on its own.
 
-See [`RESEARCH-hcaptcha-defense.md`](./RESEARCH-hcaptcha-defense.md) for how PoW
+See [`hcaptcha-defense.md`](./hcaptcha-defense.md) for how PoW
 sits within the layered model.

@@ -90,7 +90,7 @@ encrypted.
   *engineering cost* of extraction (and rotates per build), but it is
   **security-through-obscurity**: the key is fully recoverable by instrumenting
   the schedule (this repo does exactly that, verified 120/120 against the AES-256
-  key schedule). See [`RESEARCH-protocol.md`](./RESEARCH-protocol.md) §3.
+  key schedule). See [`protocol.md`](./protocol.md) §3.
 
 ## 5. Threat-model framing — what the crypto does and doesn't do
 
@@ -121,6 +121,6 @@ thesis: the cipher protects the channel, the risk model protects against bots.
   (GCM or encrypt-then-MAC), and — unavoidably — accept that any client-held key
   is extractable, so never place trust in client-side confidentiality.
 
-See [`RESEARCH-SUMMARY.md`](./RESEARCH-SUMMARY.md) for how this fits the whole
-study, and [`RESEARCH-protocol.md`](./RESEARCH-protocol.md) for the wire-level
+See [`SUMMARY.md`](./SUMMARY.md) for how this fits the whole
+study, and [`protocol.md`](./protocol.md) for the wire-level
 protocol.

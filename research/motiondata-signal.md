@@ -11,7 +11,7 @@ interaction from automation at the signal level.
 ## 1. Where it lives
 
 In the decrypted `getcaptcha` request telemetry (§4 of
-[`RESEARCH-protocol.md`](./RESEARCH-protocol.md)) there is a `motionData` JSON
+[`protocol.md`](./protocol.md)) there is a `motionData` JSON
 string plus `pdc` and `pem` counter blocks. At the `getcaptcha` moment the
 interaction arrays are typically still sparse (the user has only clicked the
 checkbox); the rich pointer stream is accumulated **during** the challenge and

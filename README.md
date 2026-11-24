@@ -96,17 +96,17 @@ python tools/update_keys.py --data-dir data
 Descriptive, defensive/educational analysis of hCaptcha's protocol and defense
 design (no solver / no bypass):
 
-- **[`RESEARCH-SUMMARY.md`](RESEARCH-SUMMARY.md) — start here: executive summary + findings**
-- [`RESEARCH-protocol.md`](RESEARCH-protocol.md) — client protocol & crypto whitepaper
-- [`RESEARCH-crypto-analysis.md`](RESEARCH-crypto-analysis.md) — encryption/decryption construction analysis (AEAD, IV, keys, n-token)
-- [`RESEARCH-hcaptcha-defense.md`](RESEARCH-hcaptcha-defense.md) — visual challenge taxonomy + layered defense
-- [`RESEARCH-motiondata-signal.md`](RESEARCH-motiondata-signal.md) — behavioral signal analysis (detection view)
-- [`RESEARCH-pow-hsw.md`](RESEARCH-pow-hsw.md) — hsw proof-of-work cost analysis (Hashcash/SHA-1)
-- [`RESEARCH-captcha-comparison.md`](RESEARCH-captcha-comparison.md) — hCaptcha vs Turnstile vs reCAPTCHA v3
-- [`RESEARCH-turnstile-architecture.md`](RESEARCH-turnstile-architecture.md) — Turnstile architecture deep-dive
-- [`RESEARCH-recaptcha-enterprise.md`](RESEARCH-recaptcha-enterprise.md) — reCAPTCHA Enterprise signal-level analysis
-- [`RESEARCH-recaptcha-v3-why-opaque.md`](RESEARCH-recaptcha-v3-why-opaque.md) — why v3 resists client-side extraction
-- [`RESEARCH-measurement-design.md`](RESEARCH-measurement-design.md) — responsible study methodology
+- **[`research/SUMMARY.md`](research/SUMMARY.md) — start here: executive summary + findings**
+- [`research/protocol.md`](research/protocol.md) — client protocol & crypto whitepaper
+- [`research/crypto-analysis.md`](research/crypto-analysis.md) — encryption/decryption construction analysis (AEAD, IV, keys, n-token)
+- [`research/hcaptcha-defense.md`](research/hcaptcha-defense.md) — visual challenge taxonomy + layered defense
+- [`research/motiondata-signal.md`](research/motiondata-signal.md) — behavioral signal analysis (detection view)
+- [`research/pow-hsw.md`](research/pow-hsw.md) — hsw proof-of-work cost analysis (Hashcash/SHA-1)
+- [`research/captcha-comparison.md`](research/captcha-comparison.md) — hCaptcha vs Turnstile vs reCAPTCHA v3
+- [`research/turnstile-architecture.md`](research/turnstile-architecture.md) — Turnstile architecture deep-dive
+- [`research/recaptcha-enterprise.md`](research/recaptcha-enterprise.md) — reCAPTCHA Enterprise signal-level analysis
+- [`research/recaptcha-v3-why-opaque.md`](research/recaptcha-v3-why-opaque.md) — why v3 resists client-side extraction
+- [`research/measurement-design.md`](research/measurement-design.md) — responsible study methodology
 
 ## Disclaimer
 

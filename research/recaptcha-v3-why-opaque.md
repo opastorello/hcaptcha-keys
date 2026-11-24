@@ -73,14 +73,14 @@ key, no plaintext, no challenge to recover.
 The cost of that choice is **privacy**: v3's power comes from Google's *linkable*
 cross-site reputation graph — the central criticism of the product, and the
 opposite of Turnstile's Privacy-Pass stance (see
-[`RESEARCH-captcha-comparison.md`](./RESEARCH-captcha-comparison.md) and
-[`RESEARCH-recaptcha-enterprise.md`](./RESEARCH-recaptcha-enterprise.md)).
+[`captcha-comparison.md`](./captcha-comparison.md) and
+[`recaptcha-enterprise.md`](./recaptcha-enterprise.md)).
 
 ## 7. Takeaway
 
 This is not a failed extraction — there is nothing client-side to extract. v3's
 barrier is 100% server-side risk scoring, which reinforces the thesis of the
-whole corpus (see [`RESEARCH-SUMMARY.md`](./RESEARCH-SUMMARY.md)):
+whole corpus (see [`SUMMARY.md`](./SUMMARY.md)):
 
 > What a client can compute and send is reproducible and therefore not where the
 > security lives. v3 simply removes the client-side surface entirely and keeps the

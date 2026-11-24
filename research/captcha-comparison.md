@@ -82,5 +82,5 @@ risk-based, increasingly invisible verification**. Consequences:
 3. Privacy cost vs. detection power: does Google's cross-site graph measurably
    outperform Cloudflare's Privacy-Pass-constrained model?
 
-See [`RESEARCH-measurement-design.md`](./RESEARCH-measurement-design.md) for how
+See [`measurement-design.md`](./measurement-design.md) for how
 these could be studied responsibly.
