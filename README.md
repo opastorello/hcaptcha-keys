@@ -1,13 +1,28 @@
 # hcaptcha-keys
 
-Auto-updating hCaptcha **hsw** (and **hsj** when it shares keys) AES-256 keys,
-one build at a time.
+[![Update keys](https://github.com/opastorello/hcaptcha-keys/actions/workflows/update-keys.yml/badge.svg)](https://github.com/opastorello/hcaptcha-keys/actions/workflows/update-keys.yml)
+![updates hourly](https://img.shields.io/badge/updates-hourly-brightgreen)
+![last commit](https://img.shields.io/github/last-commit/opastorello/hcaptcha-keys)
+![cipher](https://img.shields.io/badge/cipher-AES--256--GCM-blue)
+![license](https://img.shields.io/github/license/opastorello/hcaptcha-keys)
 
-A GitHub Actions job runs **every hour**, detects the current hCaptcha asset
-build, and — when the build rotates — extracts and verifies both AES-256 keys
-**locally, from hCaptcha's own bundle**, with no third-party key feed. Results
-are written to [`data/keys.json`](data/keys.json) (current build) and archived
-per build under [`data/history/`](data/history/).
+> **Auto-updating hCaptcha AES-256 keys** — extracted and verified **independently**
+> from hCaptcha's own bundle, every hour. No third-party key feed.
+
+The current build's `request_key` / `response_key` live in
+**[`data/keys.json`](data/keys.json)**; every build ever seen is archived under
+**[`data/history/`](data/history/)**.
+
+- 🔑 **Both bundles** — `hsw` always; `hsj` (fingerprint) when it shares the same keys (`matches_hsw`)
+- ✅ **Verified** — every key is proven against the bundle's own AES before it ships (nothing guessed)
+- 🔁 **Build-robust** — keys rotate several times a day; structural detection follows automatically, no hard-coded indices
+- 🧩 **Pure crypto** — use the keys in plain AES-256-GCM, no WASM/JS runtime in the loop
+- 🔬 **Documented** — a full [`research/`](research/SUMMARY.md) set on the protocol & defense design
+
+```bash
+# grab the latest keys
+curl -s https://raw.githubusercontent.com/opastorello/hcaptcha-keys/main/data/keys.json
+```
 
 ## Schema
 
@@ -55,7 +70,7 @@ per build under [`data/history/`](data/history/).
 
 ## Verification
 
-Every published key is checked against the build's own WASM before it ships —
+Every published key is checked against the build's own bundle before it ships —
 nothing is guessed:
 
 - **request_key**: GCM-decrypting the bundle's own `hsw(1, pt)` output under
@@ -64,6 +79,7 @@ nothing is guessed:
 - Both masters are also **self-verified**: the recovered 32-byte key must
   regenerate the full 120-word fixslice AES-256 schedule captured live
   (120/120 word match).
+- **hsj**: verified by key-equivalence against hsj's own `hsj(1)` / `hsj(0)`.
 
 ## How extraction works
 
@@ -130,4 +146,4 @@ design (no solver / no bypass):
 For security research and interoperability testing. Uses only hCaptcha's own
 publicly-served bundle. No affiliation with hCaptcha / Intuition Machines.
 This repository characterizes the transport/crypto layer and defense *design*;
-it contains no challenge solver, no behavioral-signal synthesis, and no bypass.
+it contains **no challenge solver, no behavioral-signal synthesis, and no bypass**.
