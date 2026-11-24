@@ -104,6 +104,7 @@ design (no solver / no bypass):
 - [`RESEARCH-captcha-comparison.md`](RESEARCH-captcha-comparison.md) — hCaptcha vs Turnstile vs reCAPTCHA v3
 - [`RESEARCH-turnstile-architecture.md`](RESEARCH-turnstile-architecture.md) — Turnstile architecture deep-dive
 - [`RESEARCH-recaptcha-enterprise.md`](RESEARCH-recaptcha-enterprise.md) — reCAPTCHA Enterprise signal-level analysis
+- [`RESEARCH-recaptcha-v3-why-opaque.md`](RESEARCH-recaptcha-v3-why-opaque.md) — why v3 resists client-side extraction
 - [`RESEARCH-measurement-design.md`](RESEARCH-measurement-design.md) — responsible study methodology
 
 ## Disclaimer
