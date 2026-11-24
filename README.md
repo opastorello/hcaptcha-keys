@@ -98,7 +98,9 @@ design (no solver / no bypass):
 
 - [`RESEARCH-protocol.md`](RESEARCH-protocol.md) — client protocol & crypto whitepaper
 - [`RESEARCH-hcaptcha-defense.md`](RESEARCH-hcaptcha-defense.md) — visual challenge taxonomy + layered defense
+- [`RESEARCH-motiondata-signal.md`](RESEARCH-motiondata-signal.md) — behavioral signal analysis (detection view)
 - [`RESEARCH-captcha-comparison.md`](RESEARCH-captcha-comparison.md) — hCaptcha vs Turnstile vs reCAPTCHA v3
+- [`RESEARCH-turnstile-architecture.md`](RESEARCH-turnstile-architecture.md) — Turnstile architecture deep-dive
 - [`RESEARCH-measurement-design.md`](RESEARCH-measurement-design.md) — responsible study methodology
 
 ## Disclaimer
