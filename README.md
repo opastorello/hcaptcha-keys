@@ -4,6 +4,7 @@
 ![updates hourly](https://img.shields.io/badge/updates-hourly-brightgreen)
 ![last commit](https://img.shields.io/github/last-commit/opastorello/hcaptcha-keys)
 ![cipher](https://img.shields.io/badge/cipher-AES--256--GCM-blue)
+![verified](https://img.shields.io/badge/keys-verified-success)
 ![license](https://img.shields.io/github/license/opastorello/hcaptcha-keys)
 
 > **Auto-updating hCaptcha AES-256 keys** — extracted and verified **independently**
@@ -19,9 +20,35 @@ The current build's `request_key` / `response_key` live in
 - 🧩 **Pure crypto** — use the keys in plain AES-256-GCM, no WASM/JS runtime in the loop
 - 🔬 **Documented** — a full [`research/`](research/SUMMARY.md) set on the protocol & defense design
 
+---
+
+## Contents
+
+- [Quick start](#quick-start)
+- [Schema](#schema)
+- [Examples](#examples)
+- [Verification](#verification)
+- [How extraction works](#how-extraction-works)
+- [Repository layout](#repository-layout)
+- [Run it yourself](#run-it-yourself)
+- [Research notes](#research-notes)
+- [Disclaimer](#disclaimer)
+
+---
+
+## Quick start
+
 ```bash
-# grab the latest keys
-curl -s https://raw.githubusercontent.com/opastorello/hcaptcha-keys/main/data/keys.json
+# latest keys, straight from the repo
+curl -s https://raw.githubusercontent.com/opastorello/hcaptcha-keys/main/data/keys.json | jq .hsw
+```
+
+```python
+import requests
+KEYS = "https://raw.githubusercontent.com/opastorello/hcaptcha-keys/main/data/keys.json"
+k = requests.get(KEYS).json()
+request_key  = bytes.fromhex(k["hsw"]["request_key"])
+response_key = bytes.fromhex(k["hsw"]["response_key"])
 ```
 
 ## Schema
@@ -60,13 +87,75 @@ curl -s https://raw.githubusercontent.com/opastorello/hcaptcha-keys/main/data/ke
 }
 ```
 
-- `request_key` — `encrypt_req_data` (`window.hsw(1, …)`).
-- `response_key` — `decrypt_resp_data` (`window.hsw(0, …)`).
-- Keys are build-static and rotate with the asset build (several times a day).
-- **`hsj`** (the fingerprint / `inspekt_client` bundle) is included when it is
-  verified — against hsj's own oracle — to use the *same* AES keys as hsw
-  (`matches_hsw`). On builds where hsj uses independent keys the block is omitted
-  rather than published unverified.
+| Field | Meaning |
+|-------|---------|
+| `version` | the hCaptcha asset build hash the keys belong to |
+| `hsw.request_key` | `encrypt_req_data` — `window.hsw(1, …)` (client → server) |
+| `hsw.response_key` | `decrypt_resp_data` — `window.hsw(0, …)` (server → client) |
+| `*_wire` | AEAD byte layout: `iv(12) \|\| ct(N) \|\| tag(16)` |
+| `hsj` | the fingerprint / `inspekt_client` bundle; included only when verified to reuse the hsw keys (`matches_hsw`), else omitted |
+
+Keys are **build-static** and rotate with the asset build (several times a day).
+
+## Examples
+
+### Encrypt / decrypt (Python, pure AES — no WASM)
+
+```python
+import json, os
+from Crypto.Cipher import AES
+
+k = json.load(open("data/keys.json"))["hsw"]
+request_key  = bytes.fromhex(k["request_key"])
+response_key = bytes.fromhex(k["response_key"])
+
+def hsw_encrypt(pt: bytes, key: bytes) -> bytes:     # -> iv(12) || ct || tag(16)
+    iv = os.urandom(12)
+    ct, tag = AES.new(key, AES.MODE_GCM, nonce=iv).encrypt_and_digest(pt)
+    return iv + ct + tag
+
+def hsw_decrypt(blob: bytes, key: bytes) -> bytes:
+    iv, ct, tag = blob[:12], blob[12:-16], blob[-16:]
+    return AES.new(key, AES.MODE_GCM, nonce=iv).decrypt_and_verify(ct, tag)
+
+blob = hsw_encrypt(b"hello", request_key)
+assert hsw_decrypt(blob, request_key) == b"hello"
+```
+
+### Inspect a captured `getcaptcha` response (protocol analysis)
+
+The server's `getcaptcha` body is AES-256-GCM under `response_key`; the
+plaintext is **msgpack**:
+
+```python
+import msgpack
+pt = hsw_decrypt(open("getcaptcha_response.bin", "rb").read(), response_key)
+challenge = msgpack.unpackb(pt, raw=False, strict_map_key=False)
+
+print(challenge["request_type"])        # e.g. "image_label_area_select"
+print(challenge["requester_question"])  # e.g. {"en": "Select the shape that is different"}
+print(len(challenge["tasklist"]))       # challenge images
+```
+
+The `getcaptcha` **request** body is msgpack `[hsw-token, Ext(18, GCM(request_key, telemetry))]`.
+Full field reference: [`research/protocol.md`](research/protocol.md).
+
+### Node.js
+
+```js
+const crypto = require("crypto");
+const k = require("./data/keys.json").hsw;
+const key = Buffer.from(k.response_key, "hex");
+
+function hswDecrypt(blob) {                   // iv(12) || ct || tag(16)
+  const iv = blob.subarray(0, 12);
+  const tag = blob.subarray(blob.length - 16);
+  const ct = blob.subarray(12, blob.length - 16);
+  const d = crypto.createDecipheriv("aes-256-gcm", key, iv);
+  d.setAuthTag(tag);
+  return Buffer.concat([d.update(ct), d.final()]);
+}
+```
 
 ## Verification
 
@@ -96,23 +185,16 @@ function index, so it survives the frequent build rotations automatically.
 
 See [`STATUS.md`](STATUS.md) and `src/hcaptcha/hsw_keys_local.py`.
 
-## Use the keys (pure Python, no WASM)
+## Repository layout
 
-```python
-import json, os
-from Crypto.Cipher import AES
-
-k = json.load(open("data/keys.json"))["hsw"]
-req = bytes.fromhex(k["request_key"])
-
-def hsw_encrypt(pt, key):          # iv(12) || ct || tag(16)
-    iv = os.urandom(12)
-    ct, tag = AES.new(key, AES.MODE_GCM, nonce=iv).encrypt_and_digest(pt)
-    return iv + ct + tag
-
-def hsw_decrypt(blob, key):
-    iv, ct, tag = blob[:12], blob[12:-16], blob[-16:]
-    return AES.new(key, AES.MODE_GCM, nonce=iv).decrypt_and_verify(ct, tag)
+```
+data/keys.json              current build's verified keys
+data/history/<version>.json per-build archive
+tools/update_keys.py        CI runner (detect build → extract → write)
+.github/workflows/          hourly workflow
+src/hcaptcha/               the extractor (hsw_keys_local, hsj_keys_local, …)
+research/                   protocol & defense analysis (SUMMARY.md first)
+tests/                      schema + crypto unit tests
 ```
 
 ## Run it yourself
