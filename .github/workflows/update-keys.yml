@@ -1,0 +1,115 @@
+name: Update keys
+
+# Runs every hour (and on manual dispatch). Detects the current hCaptcha
+# build and, when it rotated, extracts + verifies both AES-256 keys locally
+# (write-interception extractor, no third-party feed) and writes
+# data/keys.json + data/history/<version>.json in the vastien schema.
+# When the build is unchanged it only bumps last_checked (heartbeat).
+#
+# Runtime: ~1-2 min (one extraction + 3 oracle verifications). Free-tier OK.
+
+on:
+  schedule:
+    - cron: "0 * * * *"          # top of every hour, UTC
+  workflow_dispatch: {}          # manual trigger from the Actions tab
+
+permissions:
+  contents: write                # so the bot can push to the default branch
+
+concurrency:
+  group: update-keys
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: System libraries for canvas
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+
+      - name: Install Python deps
+        run: pip install pycryptodome xxhash msgpack jsbeautifier requests
+
+      - name: Install Node deps
+        run: npm ci --no-audit --no-fund
+
+      - name: Update keys
+        id: run
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          set -euo pipefail
+          STATUS=""
+          for attempt in 1 2 3; do
+            if python tools/update_keys.py --data-dir data > run.out 2> run.log; then
+              STATUS="$(tail -n 1 run.out)"
+              break
+            fi
+            echo "::warning::attempt $attempt failed"; tail -n 20 run.log || true
+            STATUS="$(tail -n 1 run.out || true)"
+            sleep $((attempt * 30))
+          done
+          echo "status_line=$STATUS" >> "$GITHUB_OUTPUT"
+          KIND="$(echo "$STATUS" | awk '{print $1}')"
+          VER="$(echo "$STATUS"  | awk '{print $2}')"
+          echo "kind=$KIND" >> "$GITHUB_OUTPUT"
+          echo "ver=$VER"   >> "$GITHUB_OUTPUT"
+          echo "detected: $STATUS"
+          # A FAILED line means no verified key this run -> keep old data, soft-stop.
+          if [ "$KIND" = "FAILED" ]; then
+            echo "::warning::extraction failed for ${VER:0:12}; leaving existing keys untouched"
+          fi
+
+      - name: Commit + push if changed
+        env:
+          KIND: ${{ steps.run.outputs.kind }}
+          VER: ${{ steps.run.outputs.ver }}
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "nothing changed — skipping commit"
+            exit 0
+          fi
+          if [ "$KIND" = "NEWBUILD" ]; then
+            MSG="feat: new build ${VER:0:12} — keys extracted (request+response, verified)"
+          else
+            MSG="chore: last_checked heartbeat (${VER:0:12})"
+          fi
+          git commit -m "$MSG"
+          git checkout -- . || true
+          for attempt in 1 2 3 4 5; do
+            if git push 2> push.err; then
+              echo "pushed (attempt $attempt)"; exit 0
+            fi
+            if ! grep -q "rejected\|non-fast-forward\|fetch first" push.err; then
+              cat push.err; exit 1
+            fi
+            git fetch origin; git rebase "origin/$(git rev-parse --abbrev-ref HEAD)"
+            sleep $((attempt * 2))
+          done
+          echo "::error::push still rejected after 5 attempts"; exit 1
