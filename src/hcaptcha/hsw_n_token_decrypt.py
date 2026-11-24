@@ -910,19 +910,30 @@ def _live_decrypt(raw: bytes,
 # Key-free plaintext recovery: capture the encrypt entry's input buffer
 # ---------------------------------------------------------------------------
 def _find_encrypt_entry(mod) -> int | None:
-    """The n-token encrypt entry is the (i32,i32,i32)->i32 function that
-    calls the most fixslice key-schedule helpers (it schedules the key
-    then drives the CTR loop). Build-index-independent."""
+    """The n-token encrypt entry is the function that calls the fixslice AES
+    helpers the most (it schedules the key then drives the CTR loop).
+
+    Build-index AND signature independent: older builds used
+    ``(i32,i32,i32)->i32`` but the entry signature rotates per build, so we
+    rank every function by how many distinct fixslice calls it makes, then by
+    total fixslice call count, and take the top one that calls at least one.
+    """
     ks = set(_find_fixslice_ks_funcs(mod))
-    best, best_n = None, 0
+    if not ks:
+        return None
+    best, best_key = None, (0, 0, 0)
     for f in mod.functions:
-        params, results = mod.types[f["type_idx"]]
-        if params != ["i32", "i32", "i32"] or results != ["i32"]:
+        calls = [ops[0] for nm, ops, _, _ in (mod.decode_function(f["func_idx"]) or [])
+                 if nm == "call" and ops and ops[0] in ks]
+        if not calls:
             continue
-        n = sum(1 for nm, ops, _, _ in (mod.decode_function(f["func_idx"]) or [])
-                if nm == "call" and ops and ops[0] in ks)
-        if n > best_n:
-            best_n, best = n, f["func_idx"]
+        params, results = mod.types[f["type_idx"]]
+        # prefer: more distinct fixslice callees, then more total calls, then
+        # the legacy (i32,i32,i32)->i32 shape as a tie-breaker.
+        key = (len(set(calls)), len(calls),
+               1 if (params == ["i32", "i32", "i32"] and results == ["i32"]) else 0)
+        if key > best_key:
+            best_key, best = key, f["func_idx"]
     return best
 
 

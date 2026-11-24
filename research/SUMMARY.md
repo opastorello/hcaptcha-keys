@@ -77,6 +77,7 @@ gate, not the lock.**
 |---|-----|-------|
 | 1 | [`protocol.md`](protocol.md) | Client protocol + crypto whitepaper |
 | 2 | [`crypto-analysis.md`](crypto-analysis.md) | Encryption/decryption construction analysis |
+| 2b | [`ntoken-residual.md`](ntoken-residual.md) | The n-token key — the open residual + next experiment |
 | 3 | [`hcaptcha-defense.md`](hcaptcha-defense.md) | Visual-challenge taxonomy + layered defense |
 | 4 | [`motiondata-signal.md`](motiondata-signal.md) | Behavioral signal analysis (detection view) |
 | 5 | [`pow-hsw.md`](pow-hsw.md) | hsw proof-of-work cost analysis |
