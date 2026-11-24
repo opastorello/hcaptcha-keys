@@ -34,18 +34,20 @@ def test_snapshot_valid(path):
     for ts in ("last_checked", "last_updated"):
         assert isinstance(d.get(ts), str) and d[ts], f"missing {ts} in {path}"
 
-    hsw = d.get("hsw")
-    assert isinstance(hsw, dict), f"missing hsw block in {path}"
-    assert hsw.get("cipher") == "AES-256-GCM", f"bad cipher in {path}"
+    def _check_block(block, name):
+        assert isinstance(block, dict), f"missing {name} block in {path}"
+        assert block.get("cipher") == "AES-256-GCM", f"bad cipher in {name} of {path}"
+        # request_key must be present + verified; response_key may be null
+        assert HEX64.match(block.get("request_key") or ""), f"bad request_key in {name} of {path}"
+        assert block.get("verified") is True, f"{name} not verified in {path}"
+        rk = block.get("response_key")
+        assert rk is None or HEX64.match(rk), f"bad response_key in {name} of {path}"
+        for wire in ("request_wire", "response_wire"):
+            assert "iv" in block.get(wire, ""), f"bad {wire} in {name} of {path}"
 
-    # request_key must always be present + verified; response_key may be null
-    assert HEX64.match(hsw.get("request_key") or ""), f"bad request_key in {path}"
-    assert hsw.get("verified") is True, f"not verified in {path}"
-    rk = hsw.get("response_key")
-    assert rk is None or HEX64.match(rk), f"bad response_key in {path}"
-
-    for wire in ("request_wire", "response_wire"):
-        assert "iv" in hsw.get(wire, ""), f"bad {wire} in {path}"
+    _check_block(d.get("hsw"), "hsw")          # hsw always present
+    if d.get("hsj") is not None:               # hsj present when it shares hsw keys
+        _check_block(d["hsj"], "hsj")
 
 
 def test_current_keys_present():

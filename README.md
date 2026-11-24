@@ -1,6 +1,7 @@
 # hcaptcha-keys
 
-Auto-updating hCaptcha **hsw** AES-256 keys, one build at a time.
+Auto-updating hCaptcha **hsw** (and **hsj** when it shares keys) AES-256 keys,
+one build at a time.
 
 A GitHub Actions job runs **every hour**, detects the current hCaptcha asset
 build, and — when the build rotates — extracts and verifies both AES-256 keys
@@ -29,6 +30,17 @@ per build under [`data/history/`](data/history/).
     "bundle_sha256": "...",
     "functions": { "u32_writer": 0, "fixslice_functions": [] },
     "extracted_at": "<iso8601>"
+  },
+  "hsj": {                               // present when hsj shares the hsw keys
+    "cipher": "AES-256-GCM",
+    "request_key":  "<64 hex>",          // == hsw.request_key
+    "response_key": "<64 hex>",          // == hsw.response_key
+    "request_wire": "iv(12) || ct(N) || tag(16)",
+    "response_wire": "iv(12) || ct(N) || tag(16)",
+    "verified": true,
+    "matches_hsw": true,
+    "extraction_method": "hsj oracle key-equivalence (shares hsw keys)",
+    "extracted_at": "<iso8601>"
   }
 }
 ```
@@ -36,6 +48,10 @@ per build under [`data/history/`](data/history/).
 - `request_key` — `encrypt_req_data` (`window.hsw(1, …)`).
 - `response_key` — `decrypt_resp_data` (`window.hsw(0, …)`).
 - Keys are build-static and rotate with the asset build (several times a day).
+- **`hsj`** (the fingerprint / `inspekt_client` bundle) is included when it is
+  verified — against hsj's own oracle — to use the *same* AES keys as hsw
+  (`matches_hsw`). On builds where hsj uses independent keys the block is omitted
+  rather than published unverified.
 
 ## Verification
 

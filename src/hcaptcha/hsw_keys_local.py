@@ -79,6 +79,7 @@ class BuildKeys:
     wasm_sha256: str = ""
     bundle_sha256: str = ""
     bundle_sri: str = ""
+    hsj: Optional[dict] = None     # vastien-schema hsj block, when it shares hsw keys
 
     @property
     def verified(self) -> bool:
@@ -194,7 +195,8 @@ def _gcm_blob(key: bytes, pt: bytes) -> bytes:
 
 
 def extract_build_keys(version: Optional[str] = None,
-                       timeout: float = 90.0) -> Optional[BuildKeys]:
+                       timeout: float = 90.0,
+                       probe_hsj: bool = True) -> Optional[BuildKeys]:
     """Extract + verify this build's request/response AES-256 keys locally.
 
     Returns a :class:`BuildKeys` (``request_key`` always set on success,
@@ -325,6 +327,18 @@ def extract_build_keys(version: Optional[str] = None,
         bundle_sha256=hashlib.sha256(bundle_bytes).hexdigest(),
         bundle_sri="sha256-" + base64.b64encode(hashlib.sha256(bundle_bytes).digest()).decode(),
     )
+
+    # Bonus: if the hsj (fingerprint) bundle shares the hsw keys this build
+    # (the vastien 'matches_hsw' case), verify it against hsj's own oracle and
+    # attach the hsj block. Failure here never affects the hsw result.
+    if probe_hsj:
+        try:
+            from .hsj_keys_local import probe_hsj_equivalence, hsj_block
+            probe = probe_hsj_equivalence(version, request_key, response_key, timeout=timeout)
+            bk.hsj = hsj_block(bk, probe)
+        except Exception:
+            bk.hsj = None
+
     return bk
 
 
@@ -353,12 +367,15 @@ def build_keys_json(bk: BuildKeys) -> dict:
         "functions": bk.functions,
         "extracted_at": now,
     }
-    return {
+    doc = {
         "version": bk.version,
         "last_checked": now,
         "last_updated": now,
         "hsw": hsw,
     }
+    if bk.hsj:
+        doc["hsj"] = {**bk.hsj, "extracted_at": now}
+    return doc
 
 
 if __name__ == "__main__":
