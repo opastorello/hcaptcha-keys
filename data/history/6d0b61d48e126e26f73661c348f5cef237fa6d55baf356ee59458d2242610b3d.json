@@ -1,7 +1,7 @@
 {
   "version": "6d0b61d48e126e26f73661c348f5cef237fa6d55baf356ee59458d2242610b3d",
-  "last_checked": "2026-11-24T13:02:45.447Z",
-  "last_updated": "2026-11-24T13:02:45.447Z",
+  "last_checked": "2026-11-24T18:02:30.525Z",
+  "last_updated": "2026-11-24T18:02:30.525Z",
   "hsw": {
     "cipher": "AES-256-GCM",
     "request_key": "ed4094ea2bad696e0ea61585f37a003483a33248421afcfc4f0f11b3b9749aab",
@@ -21,7 +21,7 @@
         1153
       ]
     },
-    "extracted_at": "2026-11-24T13:02:45.447Z"
+    "extracted_at": "2026-11-24T18:02:30.525Z"
   },
   "hsj": {
     "cipher": "AES-256-GCM",
@@ -33,6 +33,6 @@
     "matches_hsw": true,
     "verification": "request_key: hsj(1, pt) decrypts under the hsw request_key. response_key: hsj(0, iv||GCM(response_key,iv,pt)||tag) returns pt. Checked against hsj's own bundle \u2014 confirms hsj shares the hsw keys.",
     "extraction_method": "hsj oracle key-equivalence (shares hsw keys)",
-    "extracted_at": "2026-11-24T13:02:45.447Z"
+    "extracted_at": "2026-11-24T18:02:30.525Z"
   }
 }
