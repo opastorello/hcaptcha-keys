@@ -76,13 +76,16 @@ gate, not the lock.**
 | # | Doc | Topic |
 |---|-----|-------|
 | 1 | [`protocol.md`](protocol.md) | Client protocol + crypto whitepaper |
-| 2 | [`hcaptcha-defense.md`](hcaptcha-defense.md) | Visual-challenge taxonomy + layered defense |
-| 3 | [`motiondata-signal.md`](motiondata-signal.md) | Behavioral signal analysis (detection view) |
-| 4 | [`pow-hsw.md`](pow-hsw.md) | hsw proof-of-work cost analysis |
-| 5 | [`captcha-comparison.md`](captcha-comparison.md) | hCaptcha vs Turnstile vs reCAPTCHA v3 |
-| 6 | [`turnstile-architecture.md`](turnstile-architecture.md) | Turnstile architecture deep-dive |
-| 7 | [`recaptcha-enterprise.md`](recaptcha-enterprise.md) | reCAPTCHA Enterprise signal analysis |
-| 8 | [`measurement-design.md`](measurement-design.md) | Responsible study methodology |
+| 2 | [`crypto-analysis.md`](crypto-analysis.md) | Encryption/decryption construction analysis |
+| 3 | [`hcaptcha-defense.md`](hcaptcha-defense.md) | Visual-challenge taxonomy + layered defense |
+| 4 | [`motiondata-signal.md`](motiondata-signal.md) | Behavioral signal analysis (detection view) |
+| 5 | [`pow-hsw.md`](pow-hsw.md) | hsw proof-of-work cost analysis |
+| 6 | [`captcha-comparison.md`](captcha-comparison.md) | hCaptcha vs Turnstile vs reCAPTCHA v3 |
+| 7 | [`turnstile-architecture.md`](turnstile-architecture.md) | Turnstile architecture deep-dive |
+| 8 | [`recaptcha-enterprise.md`](recaptcha-enterprise.md) | reCAPTCHA Enterprise signal analysis |
+| 9 | [`recaptcha-v3-why-opaque.md`](recaptcha-v3-why-opaque.md) | Why v3 resists client-side extraction |
+| 10 | [`related-work.md`](related-work.md) | hCaptcha RE/solver ecosystem (by layer + activity) |
+| 11 | [`measurement-design.md`](measurement-design.md) | Responsible study methodology |
 
 ## Conclusion & stance
 
