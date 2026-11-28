@@ -1,6 +1,6 @@
 {
   "version": "2229805edd2841e022decb35b258a9a480c55e98ac2cbea952701b4de69e7eb9",
-  "last_checked": "2026-11-27T23:02:35.525Z",
+  "last_checked": "2026-11-28T00:04:26.634Z",
   "last_updated": "2026-11-27T23:02:35.525Z",
   "hsw": {
     "cipher": "AES-256-GCM",
@@ -21,7 +21,8 @@
         859
       ]
     },
-    "extracted_at": "2026-11-27T23:02:35.525Z"
+    "extracted_at": "2026-11-27T23:02:35.525Z",
+    "last_checked": "2026-11-28T00:04:26.634Z"
   },
   "hsj": {
     "cipher": "AES-256-GCM",
